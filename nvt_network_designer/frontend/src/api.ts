@@ -21,7 +21,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
-  status: () => request<{mode:string, baudrate:number, version:string}>('status'),
+  status: () => request<{mode:string, version:string}>('status'),
   profiles: () => request<DeviceProfile[]>('profiles'),
   discover: () => request<NetworkDevice[]>('network/discover', {method:'POST'}),
   commission: (uuid:string, node_id:number) =>

@@ -47,7 +47,7 @@ export interface Binding {
 export interface ProjectData {
   version: number
   name: string
-  network: { baudrate: number }
+  network: Record<string, never>
   nodes: Array<{
     uuid: string
     node_id: number | null

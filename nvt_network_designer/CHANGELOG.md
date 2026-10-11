@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+- Simplified the gateway abstraction and removed unused transport-specific settings and privileges.
+- No functional change to commissioning, bindings, simulator runtime or Home Assistant MQTT integration.
+
 ## 0.3.0
 - Node names can be edited directly in the React Flow node.
 - Node name is stored in project.json and is authoritative for Home Assistant device naming.

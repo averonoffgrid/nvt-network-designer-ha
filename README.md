@@ -2,9 +2,9 @@
 
 Home Assistant App repository for NVT Network Designer.
 
-Current stable baseline: **0.3.0**.
+Current stable baseline: **0.3.1**.
 
-The application provides commissioning, graphical NVT bindings, simulator/runtime view and Home Assistant MQTT integration. The source in this repository is based on the working 0.3.0 baseline.
+The application provides commissioning, graphical NVT bindings, simulator/runtime view and Home Assistant MQTT integration. The source in this repository is based on the working 0.3.x baseline.
 
 ## Home Assistant repository
 

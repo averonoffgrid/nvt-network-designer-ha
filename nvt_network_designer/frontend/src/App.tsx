@@ -29,7 +29,7 @@ export default function App() {
   const [edges,setEdges]=useState<Edge[]>([])
   const [live,setLive]=useState<LiveValue[]>([])
   const [activeBindings,setActiveBindings]=useState<string[]>([])
-  const [status,setStatus]=useState({mode:'?',baudrate:115200,version:'?'})
+  const [status,setStatus]=useState({mode:'?',version:'?'})
   const [commissionDevice,setCommissionDevice]=useState<NetworkDevice|null>(null)
   const [message,setMessage]=useState('Gotowy')
   const [projectName,setProjectName]=useState('My NVT Network')
@@ -164,7 +164,7 @@ export default function App() {
   const currentProject = ():ProjectData => ({
     version:1,
     name:projectName,
-    network:{baudrate:status.baudrate},
+    network:{},
     nodes:nodes.map(n=>({
       uuid:n.id,
       node_id:n.data.device.node_id,
@@ -209,7 +209,7 @@ export default function App() {
       <header className="topbar">
         <div>
           <h1>NVT Network Designer</h1>
-          <div className="sub">React Flow · {status.mode} · {status.baudrate.toLocaleString()} bps · v{status.version}</div>
+          <div className="sub">React Flow · {status.mode} · v{status.version}</div>
         </div>
         <input className="project-name" value={projectName} onChange={e=>setProjectName(e.target.value)} />
         <div className="actions">

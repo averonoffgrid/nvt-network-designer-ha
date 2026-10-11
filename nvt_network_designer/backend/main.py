@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 import paho.mqtt.client as mqtt
 
-APP_VERSION = os.environ.get("NVT_APP_VERSION", "0.3.0")
+APP_VERSION = os.environ.get("NVT_APP_VERSION", "0.3.1")
 ROOT = pathlib.Path(__file__).resolve().parent
 STATIC = ROOT / "static"
 DATA = pathlib.Path("/data")
@@ -23,14 +23,10 @@ def read_options():
     if p.exists():
         try:
             o=json.loads(p.read_text())
-            return {
-                "mode":o.get("mode","simulator"),
-                "serial_device":o.get("serial_device",""),
-                "baudrate":int(o.get("baudrate",115200))
-            }
+            return {"mode":o.get("mode","simulator")}
         except Exception:
             pass
-    return {"mode":"simulator","serial_device":"","baudrate":115200}
+    return {"mode":"simulator"}
 
 OPTIONS = read_options()
 app = FastAPI(title="NVT Network Designer", version=APP_VERSION)
@@ -74,7 +70,7 @@ def device_view(d):
             "variables":p["variables"]}
 
 def empty_project():
-    return {"version":1,"name":"My NVT Network","network":{"baudrate":OPTIONS["baudrate"]},"nodes":[],"bindings":[]}
+    return {"version":1,"name":"My NVT Network","network":{},"nodes":[],"bindings":[]}
 
 def variable_key(node_id:int,var_id:int)->str: return f"{node_id}:{var_id}"
 def binding_key(s:int,sv:int,t:int,tv:int)->str: return f"{s}:{sv}->{t}:{tv}"
@@ -197,8 +193,8 @@ class MqttBridge:
     def direct_write(self,uuid:str,var_id:int,payload:str):
         # Simulator implementation of Node0 DIRECT_WRITE.
         if OPTIONS["mode"]!="simulator":
-            # Serial backend will encode NVT_MGMT_DIRECT_WRITE to CH32.
-            self.last_error="DIRECT_WRITE serial transport not connected yet"
+            # External gateway transport is intentionally abstracted from the Designer.
+            self.last_error="DIRECT_WRITE gateway transport not connected yet"
             return
         s=load_sim()
         dev=next((d for d in s["devices"] if d["uuid"].upper()==uuid),None)
@@ -327,7 +323,7 @@ def startup_event():
 
 @app.get("/api/status")
 def status():
-    return {"mode":OPTIONS["mode"],"baudrate":OPTIONS["baudrate"],"version":APP_VERSION,
+    return {"mode":OPTIONS["mode"],"version":APP_VERSION,
             "mqtt_connected":MQTT.connected,"mqtt_error":MQTT.last_error}
 
 @app.get("/api/profiles")
@@ -336,7 +332,7 @@ def profiles(): return list(PROFILES.values())
 @app.post("/api/network/discover")
 def discover():
     if OPTIONS["mode"]=="simulator": return [device_view(d) for d in load_sim()["devices"]]
-    raise HTTPException(501,"Serial gateway backend is not enabled yet.")
+    raise HTTPException(501,"External gateway backend is not enabled yet.")
 
 class CommissionRequest(BaseModel):
     uuid:str
@@ -344,7 +340,7 @@ class CommissionRequest(BaseModel):
 
 @app.post("/api/network/commission")
 def commission(req:CommissionRequest):
-    if OPTIONS["mode"]!="simulator": raise HTTPException(501,"Serial commissioning not connected yet.")
+    if OPTIONS["mode"]!="simulator": raise HTTPException(501,"Gateway commissioning not connected yet.")
     s=load_sim()
     if any(d.get("node_id")==req.node_id for d in s["devices"]): raise HTTPException(409,"NODE_ID already in use")
     for d in s["devices"]:
@@ -386,7 +382,7 @@ def validate_binding(b,devices):
 
 @app.post("/api/deploy")
 def deploy(project:dict[str,Any]):
-    if OPTIONS["mode"]!="simulator": raise HTTPException(501,"Serial deploy not connected yet.")
+    if OPTIONS["mode"]!="simulator": raise HTTPException(501,"Gateway deploy not connected yet.")
     s=load_sim()
     # project name is authoritative for the device display name
     by_uuid={n["uuid"]:n for n in project.get("nodes",[])}

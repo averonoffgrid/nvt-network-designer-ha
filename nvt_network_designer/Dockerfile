@@ -1,4 +1,4 @@
-ARG BUILD_VERSION=0.3.0
+ARG BUILD_VERSION=0.3.1
 ARG BUILD_ARCH=aarch64
 
 FROM node:22-alpine AS frontend-build
@@ -22,7 +22,6 @@ LABEL io.hass.version="${BUILD_VERSION}" \
 RUN pip install --no-cache-dir \
         fastapi==0.116.1 \
         uvicorn==0.35.0 \
-        pyserial==3.5 \
         pydantic==2.11.7 \
         paho-mqtt==2.1.0
 
