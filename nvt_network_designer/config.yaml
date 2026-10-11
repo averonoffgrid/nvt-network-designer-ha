@@ -1,0 +1,32 @@
+name: "NVT Network Designer"
+version: "0.3.0"
+slug: "nvt_network_designer"
+description: "Commissioning and graphical NVT binding editor for the NVT RS485 automation network"
+stage: experimental
+arch:
+  - amd64
+  - aarch64
+startup: application
+boot: auto
+ingress: true
+ingress_port: 8099
+ingress_stream: true
+panel_icon: mdi:transit-connection-variant
+panel_title: "NVT Designer"
+panel_admin: true
+uart: true
+udev: true
+init: false
+options:
+  mode: "simulator"
+  serial_device: ""
+  baudrate: 115200
+schema:
+  mode: "list(simulator|serial)"
+  serial_device: "str?"
+  baudrate: "list(115200|500000|1000000)"
+
+services:
+  - mqtt:need
+
+image: "ghcr.io/averonoffgrid/nvt-network-designer"

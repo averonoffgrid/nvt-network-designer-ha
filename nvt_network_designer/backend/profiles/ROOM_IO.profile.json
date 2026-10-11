@@ -1,0 +1,56 @@
+{
+  "schema": "nvt-device-profile-v1",
+  "profile_id": 1,
+  "profile_name": "ROOM_IO",
+  "profile_version": 1,
+  "device_type": 1,
+  "description": "Demo room I/O profile for simulator",
+  "variables": [
+    {
+      "var_id": 1,
+      "name": "DI1",
+      "nvt_type": "NVT_SWITCH",
+      "direction": "publish"
+    },
+    {
+      "var_id": 2,
+      "name": "DI2",
+      "nvt_type": "NVT_SWITCH",
+      "direction": "publish"
+    },
+    {
+      "var_id": 3,
+      "name": "AI1",
+      "nvt_type": "NVT_VOLT",
+      "direction": "publish",
+      "unit": "V"
+    },
+    {
+      "var_id": 4,
+      "name": "TEMP",
+      "nvt_type": "NVT_TEMP",
+      "direction": "publish",
+      "unit": "°C"
+    },
+    {
+      "var_id": 17,
+      "name": "DO1",
+      "nvt_type": "NVT_SWITCH",
+      "direction": "subscribe"
+    },
+    {
+      "var_id": 18,
+      "name": "DO2",
+      "nvt_type": "NVT_SWITCH",
+      "direction": "subscribe"
+    },
+    {
+      "var_id": 19,
+      "name": "SETPOINT",
+      "nvt_type": "NVT_TEMP",
+      "direction": "subscribe",
+      "unit": "°C"
+    }
+  ],
+  "manifest_crc32": "6FBA41E0"
+}

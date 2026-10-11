@@ -1,0 +1,28 @@
+name: Validate
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Backend syntax
+        run: python -m py_compile nvt_network_designer/backend/main.py
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Frontend build
+        working-directory: nvt_network_designer/frontend
+        run: |
+          npm install
+          npm run build

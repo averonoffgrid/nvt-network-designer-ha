@@ -1,0 +1,42 @@
+{
+  "schema": "nvt-device-profile-v1",
+  "profile_id": 2,
+  "profile_name": "SHUTTER_IO",
+  "profile_version": 1,
+  "device_type": 2,
+  "description": "Demo shutter profile for simulator",
+  "variables": [
+    {
+      "var_id": 1,
+      "name": "UP_BUTTON",
+      "nvt_type": "NVT_SWITCH",
+      "direction": "publish"
+    },
+    {
+      "var_id": 2,
+      "name": "DOWN_BUTTON",
+      "nvt_type": "NVT_SWITCH",
+      "direction": "publish"
+    },
+    {
+      "var_id": 3,
+      "name": "POSITION",
+      "nvt_type": "NVT_PERCENT",
+      "direction": "both",
+      "unit": "%"
+    },
+    {
+      "var_id": 10,
+      "name": "MOVE_UP",
+      "nvt_type": "NVT_SWITCH",
+      "direction": "subscribe"
+    },
+    {
+      "var_id": 11,
+      "name": "MOVE_DOWN",
+      "nvt_type": "NVT_SWITCH",
+      "direction": "subscribe"
+    }
+  ],
+  "manifest_crc32": "F3319351"
+}
